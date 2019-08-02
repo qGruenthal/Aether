@@ -7,7 +7,9 @@ defmodule Aether.Application do
 
   def start(_type, _args) do
     children = [
-      Aether.Repo
+      Aether.Repo,
+      Aether.Moros.Builder,
+      Aether.Moros.Queue
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one, name: Aether.Supervisor)
