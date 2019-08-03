@@ -18,11 +18,17 @@ main =
 
 type alias Model =
     { tests : List Test
+    , categories : List Category
+    , score : Float
     }
+
+ts = [Test "t1" Pass 1, Test "t2" Pass 1, Test "t3" Fail 1]
+cs = [Category "A" 0.9, Category "B" 0.8, Category "C" 0.7, Category "D" 0.6, Category "F" 0.0]
+f = 0.59
 
 init : () -> (Model, Cmd Msg)
 init _ =
-    (Model [Test "t1" Pass 1, Test "t2" Pass 1, Test "t3" Fail 1], Cmd.none)
+    (Model ts cs f, Cmd.none)
 
 
 -- UPDATE
@@ -48,4 +54,6 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    div [] [ displayTests model.tests ]
+    div [] [ displayTests model.tests
+           , displayCategorization model.categories model.score
+           ]
