@@ -1,0 +1,12 @@
+<section class="row">
+  <span class="column">
+    <div id="grades"></div>
+  </span>
+</section>
+<script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/geras.js") %>"></script>
+<script type="text/javascript">
+let elm = app.init({
+  node: document.getElementById("grades"),
+  flags: []
+});
+</script>
