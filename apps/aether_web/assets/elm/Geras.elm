@@ -1,7 +1,9 @@
 import Browser
 import Html exposing (..)
+import Json.Decode exposing (Value)
 
 import Tests exposing (..)
+import Parser exposing (..)
 
 -- MAIN
 
@@ -26,9 +28,9 @@ ts = [Test "t1" Pass 1, Test "t2" Pass 1, Test "t3" Fail 1]
 cs = [Category "A" 0.9, Category "B" 0.8, Category "C" 0.7, Category "D" 0.6, Category "F" 0.0]
 f = 0.59
 
-init : () -> (Model, Cmd Msg)
-init _ =
-    (Model ts cs f, Cmd.none)
+init : (List JSONTest) -> (Model, Cmd Msg)
+init jts =
+    (Model (List.map parseTest jts) cs f, Cmd.none)
 
 
 -- UPDATE
