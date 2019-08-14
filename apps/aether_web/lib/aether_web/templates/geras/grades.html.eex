@@ -7,6 +7,6 @@
 <script type="text/javascript">
 let elm = app.init({
   node: document.getElementById("grades"),
-    flags: [{"name": "t1", "result": true, "value": 1}, {"name": "t2", "result": true, "value": 2}, {"name": "t3", "result": false, "value": 3}]
+    flags: [{"name": "t1", "passed": true, "value": 1}, {"name": "t2", "passed": true, "value": 2}, {"name": "t3", "passed": false, "value": 3}]
 });
 </script>

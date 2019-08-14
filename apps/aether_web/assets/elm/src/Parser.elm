@@ -5,7 +5,7 @@ import Tests exposing (..)
 
 type alias JSONTest =
     { name : String
-    , result : Bool
+    , passed : Bool
     , value : Int
     }
 
@@ -13,7 +13,7 @@ testDecoder : Decoder JSONTest
 testDecoder =
     map3 JSONTest
         (field "name" string)
-        (field "result" bool)
+        (field "passed" bool)
         (field "value" int)
 
 decodeTests : Value -> List Test
@@ -27,6 +27,6 @@ decodeTests v =
 parseTest : JSONTest -> Test
 parseTest jt =
     let
-        r = if jt.result then Pass else Fail
+        r = if jt.passed then Pass else Fail
     in
     Test jt.name r jt.value
