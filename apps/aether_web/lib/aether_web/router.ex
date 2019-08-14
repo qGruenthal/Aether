@@ -20,8 +20,9 @@ defmodule AetherWeb.Router do
     get "/grades", GerasController, :grades
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", AetherWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", AetherWeb do
+    pipe_through :api
+
+    get "/example", GerasController, :example
+  end
 end

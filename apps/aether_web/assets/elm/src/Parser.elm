@@ -30,3 +30,16 @@ parseTest jt =
         r = if jt.passed then Pass else Fail
     in
     Test jt.name r jt.value
+
+type alias JSONResults =
+    { tests: List JSONTest
+    }
+
+resultsDecoder : Decoder JSONResults
+resultsDecoder =
+    map JSONResults
+        (field "tests" (list testDecoder))
+
+parseResults : JSONResults -> List JSONTest
+parseResults jr =
+    jr.tests

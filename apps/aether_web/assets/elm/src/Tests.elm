@@ -1,13 +1,13 @@
 module Tests exposing (..)
 import Html exposing (..)
 
-type Result
+type TestResult
     = Pass
     | Fail
 
 type alias Test =
     { name : String
-    , result : Result
+    , result : TestResult
     , value : Int
     }
 
