@@ -16,12 +16,14 @@ defmodule AetherWeb.GerasController do
   end
 
   def grade(conn, _params) do
-    command = "cd apps/aether_web/assets/static/examples && momus"
-    {:ok, pid, os_pid} = run_link(command, stdout: true)
+    command = "tmp=$(echo \"$(mktemp)\"); momus > $tmp; cat $tmp; rm $tmp"
+    {:ok, pid, os_pid} = run_link(command,
+      cd: "apps/aether_web/assets/static/examples",
+      stdout: true)
 
     critique = receive do
       {:stdout, ^os_pid, output} ->
-        "{\"tests\": [\n" <> output <> "]}\n"
+        output
     end
 
     case Jason.decode(critique) do
