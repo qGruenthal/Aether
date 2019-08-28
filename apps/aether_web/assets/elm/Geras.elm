@@ -22,7 +22,6 @@ main =
 type alias Model =
     { tests : List Test
     , categories : List Category
-    , score : Float
     }
 
 getTests : String -> Cmd Msg
@@ -38,7 +37,7 @@ f = 0.59
 
 init : String -> (Model, Cmd Msg)
 init ts =
-    (Model [] cs f, getTests ts)
+    (Model [] cs, getTests ts)
 
 
 -- UPDATE
@@ -54,7 +53,7 @@ update msg model =
             (model, Cmd.none)
         GotTests r ->
             case r of
-                Ok rs -> (Model (List.map parseTest (parseResults rs)) cs f, Cmd.none)
+                Ok rs -> (Model (List.map parseTest (parseResults rs)) cs, Cmd.none)
                 Err _ -> (model, Cmd.none)
 
 
@@ -70,5 +69,5 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     div [] [ displayTests model.tests
-           , displayCategorization model.categories model.score
+           , displayCategorization model.categories (gradeTests model.tests)
            ]

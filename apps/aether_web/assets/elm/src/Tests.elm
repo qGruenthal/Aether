@@ -16,6 +16,26 @@ type alias Category =
     , threshold : Float
     }
 
+possible : Test -> Int -> Int
+possible t s =
+    s + t.value
+
+earned : Test -> Int -> Int
+earned t s =
+    case t.result of
+        Pass ->
+            s + t.value
+        _ ->
+            s
+
+gradeTests : List Test -> Float
+gradeTests ts =
+    let
+        p = List.foldl (possible) 0 ts
+        e = List.foldl (earned) 0 ts
+    in
+    100.0 * ((toFloat e) / (toFloat p))
+
 displayTest : Test -> Html msg
 displayTest t =
     let
