@@ -43,19 +43,19 @@ displayTest t =
     in
     case t.result of
         Pass ->
-            tr [] [ th [] [ text "PASSED" ]
-                  , th [] [ text t.name ]
-                  , th [] [ text (v ++ "/" ++ v) ]
+            tr [] [ td [] [ text "PASSED" ]
+                  , td [] [ text t.name ]
+                  , td [] [ text (v ++ "/" ++ v) ]
                   ]
         Fail ->
-            tr [] [ th [] [ text "FAILED" ]
-                  , th [] [ text t.name ]
-                  , th [] [ text ("0/" ++ v) ]
+            tr [] [ td [] [ text "FAILED" ]
+                  , td [] [ text t.name ]
+                  , td [] [ text ("0/" ++ v) ]
                   ]
 
 displayTests : List Test -> Html msg
 displayTests ts =
-    table [] ( List.map displayTest ts )
+    table [] ((tr [] [ th [] [ text "Status" ], th [] [ text "Name" ], th [] [ text "Score" ] ]) :: ( List.map displayTest ts ))
 
 displayCategorization : List Category -> Float -> Html msg
 displayCategorization cs f =

@@ -3,6 +3,8 @@ defmodule AetherWeb.GerasController do
 
   import Exexec
 
+  @upload_dir Application.get_env(:aether, :uploads_dir)
+
   def grades(conn, _params) do
     render(conn, "grades.html", tests: "grade")
   end
@@ -18,7 +20,7 @@ defmodule AetherWeb.GerasController do
   def grade(conn, _params) do
     command = "tmp=$(echo \"$(mktemp)\"); momus > $tmp; cat $tmp; rm $tmp"
     {:ok, pid, os_pid} = run_link(command,
-      cd: "apps/aether_web/assets/static/examples",
+      cd: Path.join([@upload_dir, "examples"]),
       stdout: true)
 
     critique = receive do

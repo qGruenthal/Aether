@@ -18,6 +18,7 @@ defmodule AetherWeb.Router do
 
     get "/", PageController, :index
     get "/grades", GerasController, :grades
+    resources "/uploads", UploadController, only: [:new, :create]
   end
 
   scope "/api", AetherWeb do
