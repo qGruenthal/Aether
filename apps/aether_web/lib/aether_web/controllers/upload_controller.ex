@@ -15,4 +15,8 @@ defmodule AetherWeb.UploadController do
         render(conn, "new.html")
     end
   end
+
+  def create(conn, _) do
+    render(conn, "new.html")
+  end
 end

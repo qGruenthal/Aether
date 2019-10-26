@@ -14,7 +14,7 @@ defmodule Aether.Moros.Builder do
 
   @impl true
   def handle_info(:work, state) do
-    IO.puts("Doing Work...")
+    #IO.puts("Doing Work...")
     {:ok}
     do_work(Aether.Moros.Queue.pop)
     check_queue()
@@ -23,11 +23,11 @@ defmodule Aether.Moros.Builder do
   end
 
   defp do_work(item) when item == nil do
-    IO.puts("Finished\n")
+    #IO.puts("Finished\n")
   end
 
   defp do_work(item) do
-    IO.puts(item)
+    #IO.puts(item)
     :timer.sleep(1000)
     do_work(Aether.Moros.Queue.pop)
   end
