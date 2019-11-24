@@ -3,6 +3,38 @@
 @import "./phoenix.css";
 @import "./milligram.css";
 
+nav {
+  width: 100%;
+  max-width: 100%;
+  background: #f4f5f6;
+  border-bottom: .1rem solid #d1d1d1;
+  position: fixed;
+  z-index: 1;
+  display: inline;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.navlist {
+  list-style: none;
+  float: right;
+  margin-bottom: 0;
+  margin-top: 1rem;
+}
+
+.navlist li a {
+  color: #606c76;
+}
+
+.navlist li span * {
+  display: inline;
+}
+
+main {
+  top: 4rem;
+}
+
 td, th {
   font-size: small;
   padding: 0rem;

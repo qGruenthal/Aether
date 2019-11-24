@@ -7,6 +7,7 @@ defmodule AetherWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug AetherWeb.Auth
   end
 
   pipeline :api do
@@ -19,6 +20,14 @@ defmodule AetherWeb.Router do
     get "/", PageController, :index
     get "/grades", GerasController, :grades
     resources "/uploads", UploadController, only: [:new, :create]
+    resources "/users", UserController, only: [:new, :create]
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
+  end
+
+  scope "/", AetherWeb do
+    pipe_through [:browser, :authenticate_user]
+
+
   end
 
   scope "/api", AetherWeb do

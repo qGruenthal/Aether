@@ -8,6 +8,19 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
+    <nav role="navigation">
+      <section class="container">
+        <ul class="navlist">
+          <%= if @current_user do %>
+            <li><%= link "Logout", to: Routes.session_path(@conn, :delete, @current_user), method: "delete" %></li>
+          <% else %>
+            <li><span><%= link "Sign in", to: Routes.session_path(@conn, :new) %>
+            <p> | </p>
+            <%= link "Register", to: Routes.user_path(@conn, :new) %></span></li>
+          <% end %>
+        </ul>
+      </section>
+    </nav>
     <main role="main" class="container">
       <%= render @view_module, @view_template, assigns %>
     </main>
