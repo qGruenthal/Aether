@@ -47,7 +47,7 @@ defmodule AetherWeb.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
 
-      {:exexec, "~> 0.2"},
+      {:remote_dockers, "~> 1.4"},
       {:argon2_elixir, "~> 2.0"}
     ]
   end
