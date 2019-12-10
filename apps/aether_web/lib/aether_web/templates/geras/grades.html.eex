@@ -7,6 +7,6 @@
 <script type="text/javascript">
 let elm = app.init({
   node: document.getElementById("grades"),
-    flags: "<%= @tests %>"
+    flags: ["<%= @type %>", "<%= @url %>"]
 });
 </script>

@@ -1,5 +1,6 @@
 import Browser
 import Html exposing (..)
+import Html.Attributes exposing (class)
 import Http
 import Json.Decode exposing (Value)
 
@@ -20,24 +21,32 @@ main =
 -- MODEL
 
 type alias Model =
-    { tests : List Test
-    , categories : List Category
+    { items : Gradable
     }
 
 getTests : String -> Cmd Msg
-getTests ts =
+getTests url =
   Http.get
-    { url = "/api/" ++ ts
+    { url = "/api/" ++ url
     , expect = Http.expectJson GotTests resultsDecoder
     }
 
---ts = [Test "t1" Pass 1, Test "t2" Pass 1, Test "t3" Fail 1]
-cs = [Category "A" 0.9, Category "B" 0.8, Category "C" 0.7, Category "D" 0.6, Category "F" 0.0]
-f = 0.59
+getGrades : String -> Cmd Msg
+getGrades url =
+  Http.get
+    { url = "/api/" ++ url
+    , expect = Http.expectJson GotGrades assignmentsDecoder
+    }
 
-init : String -> (Model, Cmd Msg)
-init ts =
-    (Model [] cs, getTests ts)
+init : (String, String) -> (Model, Cmd Msg)
+init flg =
+    case flg of
+        ("tests", url) ->
+            (Model None, getTests url)
+        ("grades", url) ->
+            (Model None, getGrades url)
+        _ ->
+            (Model None, Cmd.none)
 
 
 -- UPDATE
@@ -45,6 +54,7 @@ init ts =
 type Msg
     = GetScore
     | GotTests (Result Http.Error JSONResults)
+    | GotGrades (Result Http.Error JSONAssignments)
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -53,8 +63,12 @@ update msg model =
             (model, Cmd.none)
         GotTests r ->
             case r of
-                Ok rs -> (Model (List.map parseTest (parseResults rs)) cs, Cmd.none)
+                Ok rs -> (Model (Tests (List.map parseTest (parseResults rs))), Cmd.none)
                 Err _ -> (model, Cmd.none)
+        GotGrades r ->
+            case r of
+                Ok rs -> (Model (Course (List.map parseGrade (parseAssignments rs))), Cmd.none)
+                Err _ -> (Model (Course [Grade "Ant" 10 10]), Cmd.none)
 
 
 -- SUBSCRIPTIONS
@@ -68,6 +82,14 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-    div [] [ displayTests model.tests
-           , displayCategorization model.categories (gradeTests model.tests)
-           ]
+    case model.items of
+        Tests ts -> 
+            div [ class "container" ] [ h1 [] [ text "Grades" ]
+                                      , showTests ts
+                                      ]
+        Course gs -> 
+            div [ class "container" ] [ h1 [] [ text "Course" ]
+                                      , showGrades gs
+                                      ]
+        _ ->
+            div [ class "container" ] [ h1 [] [ text "Waiting..." ] ]

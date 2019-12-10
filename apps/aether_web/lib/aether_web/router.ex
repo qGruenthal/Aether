@@ -19,6 +19,7 @@ defmodule AetherWeb.Router do
 
     get "/", PageController, :index
     get "/grades", GerasController, :grades
+    get "/assignments", GerasController, :assignments
     resources "/uploads", UploadController, only: [:new, :create]
     resources "/users", UserController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
@@ -35,5 +36,6 @@ defmodule AetherWeb.Router do
 
     get "/example", GerasController, :example
     get "/grade", GerasController, :grade
+    get "/assignment", GerasController, :assignment
   end
 end

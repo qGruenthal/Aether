@@ -35,7 +35,43 @@ main {
   top: 4rem;
 }
 
+table {
+  padding-bottom: 2rem;
+}
+
 td, th {
   font-size: small;
   padding: 0rem;
+}
+
+tfoot td {
+  border: none;
+  font-weight: bold;
+}
+
+.failed {
+  background-color: #fcf8ff;
+  color: #9b4dca;
+}
+
+thead th:nth-child(1) {
+  width: 70%;
+}
+
+thead th:nth-child(2) {
+  width: 15%;
+}
+
+thead th:nth-child(3) {
+  width: 15%;
+}
+
+.letter-box {
+  width: 100%;
+  padding: 0rem;
+}
+
+.letter-box h1 {
+  font-size: 8rem;
+  margin-bottom: 0rem;
 }

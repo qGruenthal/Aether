@@ -43,3 +43,41 @@ resultsDecoder =
 parseResults : JSONResults -> List JSONTest
 parseResults jr =
     jr.tests
+
+type alias JSONGrade =
+    { name : String
+    , earned : Int
+    , possible : Int
+    }
+
+gradeDecoder : Decoder JSONGrade
+gradeDecoder =
+    map3 JSONGrade
+        (field "name" string)
+        (field "earned" int)
+        (field "possible" int)
+
+decodeGrades : Value -> List Grade
+decodeGrades v =
+    case decodeValue (list gradeDecoder) v of
+        Ok jgs ->
+            List.map parseGrade jgs
+        _ ->
+            [Grade "Error" 0 0]    
+
+parseGrade : JSONGrade -> Grade
+parseGrade jg =
+    Grade jg.name jg.earned jg.possible
+
+type alias JSONAssignments =
+    { grades: List JSONGrade
+    }
+
+assignmentsDecoder : Decoder JSONAssignments
+assignmentsDecoder =
+    map JSONAssignments
+        (field "grades" (list gradeDecoder))
+
+parseAssignments : JSONAssignments -> List JSONGrade
+parseAssignments ja =
+    ja.grades
