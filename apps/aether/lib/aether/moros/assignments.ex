@@ -4,7 +4,7 @@ defmodule Aether.Moros.Assignments do
   alias Aether.Repo
   alias Aether.Moros.Assignments.Upload
 
-  def create_upload(%Plug.Upload{filename: filename, path: tmp_path, content_type: content_type}) do
+  def create_upload(%Plug.Upload{filename: filename, path: tmp_path, content_type: content_type}, user_path) do
     hash =
       File.stream!(tmp_path, [], 2048)
       |> Upload.hash()
@@ -13,10 +13,10 @@ defmodule Aether.Moros.Assignments do
       with {:ok, %File.Stat{size: size}} <- File.stat(tmp_path),
            {:ok, upload} <-
              %Upload{}
-             |> Upload.changeset(%{filename: filename, hash: hash, size: size })
+             |> Upload.changeset(%{filename: "#{user_path}/#{filename}", hash: hash, size: size })
              |> Repo.insert(),
            :ok <-
-             File.cp(tmp_path, Upload.file_path(filename))
+             File.cp(tmp_path, Upload.file_path(user_path, filename))
       do
         {:ok, upload}
       else

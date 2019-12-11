@@ -84,12 +84,12 @@ view : Model -> Html Msg
 view model =
     case model.items of
         Tests ts -> 
-            div [ class "container" ] [ h1 [] [ text "Grades" ]
+            div [ class "container" ] [ h3 [] [ text "Results" ]
                                       , showTests ts
                                       ]
         Course gs -> 
-            div [ class "container" ] [ h1 [] [ text "Course" ]
+            div [ class "container" ] [ h3 [] [ text "Grades" ]
                                       , showGrades gs
                                       ]
         _ ->
-            div [ class "container" ] [ h1 [] [ text "Waiting..." ] ]
+            div [ class "container" ] [ h3 [] [ text "Waiting..." ] ]

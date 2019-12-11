@@ -3,14 +3,17 @@ defmodule AetherWeb.UploadController do
 
   alias Aether.Moros.Assignments
 
-  def new(conn, _params) do
+  require Logger
+
+  def new(conn, %{"name" => name}) do
     render(conn, "new.html")
   end
 
   def create(conn, %{"upload" => %Plug.Upload{}=upload}) do
-    case Assignments.create_upload(upload) do
+    Logger.warn "ant #{inspect(conn.assigns.current_user.id)}"
+    case Assignments.create_upload(upload, conn.assigns.current_user.id) do
       {:ok, upload} ->
-        redirect(conn, to: Routes.page_path(conn, :index))
+        redirect(conn, to: Routes.geras_path(conn, :grades, "Stuff 200",  "Demo"))
       {:error, reason} ->
         render(conn, "new.html")
     end

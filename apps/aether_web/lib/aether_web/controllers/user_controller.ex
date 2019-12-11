@@ -14,7 +14,7 @@ defmodule AetherWeb.UserController do
       {:ok, user} ->
         conn
         |> AetherWeb.Auth.login(user)
-        |> redirect(to: Routes.page_path(conn, :index))
+        |> redirect(to: Routes.page_path(conn, :landing))
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
     end

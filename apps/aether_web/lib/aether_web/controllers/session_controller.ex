@@ -9,7 +9,7 @@ defmodule AetherWeb.SessionController do
     case AetherWeb.Auth.check_login(conn, name, pass) do
       {:ok, conn} ->
 	conn
-	|> redirect(to: Routes.page_path(conn, :index))
+	|> redirect(to: Routes.page_path(conn, :landing))
       {:error, _reason, conn} ->
 	conn
 	|> render("new.html")

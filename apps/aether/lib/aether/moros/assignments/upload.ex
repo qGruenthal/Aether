@@ -34,8 +34,8 @@ defmodule Aether.Moros.Assignments.Upload do
     Application.get_env(:aether, :uploads_dir)
   end
 
-  def file_path(filename) do
-    [upload_dir(), "#{filename}"]
+  def file_path(user_path, filename) do
+    [upload_dir(), "#{user_path}", "#{filename}"]
     |> Path.join()
   end
 end

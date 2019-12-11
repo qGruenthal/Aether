@@ -1,0 +1,12 @@
+<section class="row">
+  <span class="column">
+    <h1>Courses</h1>
+    <ul>
+      <%= for c <- @courses do %>
+        <li>
+          <%= link c, to: Routes.geras_path(@conn, :assignments, c) %>
+        </li>
+      <% end %>
+    </ul>
+  </span>
+</section>

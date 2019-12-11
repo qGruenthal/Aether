@@ -18,16 +18,17 @@ defmodule AetherWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/grades", GerasController, :grades
-    get "/assignments", GerasController, :assignments
-    resources "/uploads", UploadController, only: [:new, :create]
+    get "/landing", PageController, :landing
+    get "/grades/:course/:assignment", GerasController, :grades
+    get "/assignments/:course", GerasController, :assignments
+    get "/uploads/new/:name", UploadController, :new
+    post "/uploads", UploadController, :create
     resources "/users", UserController, only: [:new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
   scope "/", AetherWeb do
     pipe_through [:browser, :authenticate_user]
-
 
   end
 
@@ -36,6 +37,7 @@ defmodule AetherWeb.Router do
 
     get "/example", GerasController, :example
     get "/grade", GerasController, :grade
-    get "/assignment", GerasController, :assignment
+    get "/Stuff 101", GerasController, :assignment
+    get "/Stuff 200", GerasController, :pool
   end
 end
