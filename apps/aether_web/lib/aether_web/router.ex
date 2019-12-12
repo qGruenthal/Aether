@@ -36,7 +36,7 @@ defmodule AetherWeb.Router do
     pipe_through :api
 
     get "/example", GerasController, :example
-    get "/grade", GerasController, :grade
+    get "/grade/:name", GerasController, :grade
     get "/Stuff 101", GerasController, :assignment
     get "/Stuff 200", GerasController, :pool
   end

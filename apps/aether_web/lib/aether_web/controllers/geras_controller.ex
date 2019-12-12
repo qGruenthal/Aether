@@ -10,7 +10,7 @@ defmodule AetherWeb.GerasController do
   @upload_dir Application.get_env(:aether, :uploads_dir)
 
   def grades(conn, %{"course" => course, "assignment" => assignment}) do
-    render(conn, "grades.html", %{type: "tests", url: "grade", course: course, assignment: assignment, flag: true})
+    render(conn, "grades.html", %{type: "tests", url: "grade/#{assignment}", course: course, assignment: assignment, flag: true})
   end
 
   def assignments(conn, %{"course" => course}) do
@@ -38,25 +38,25 @@ defmodule AetherWeb.GerasController do
     json(conn, %{grades: gs})
   end
 
-  def grade(conn, _) do # {"name" => name}) do
+  def grade(conn, %{"name" => name}) do
 
     #critique = Jason.encode!(%{tests: [%{name: "t1", passed: true, value: 1}, %{name: "t2", passed: true, value: 2}, %{name: "t3", passed: false, value: 3}]})
 
     task = Task.async(fn -> Runner.run_momus end)
 
     critique =
-      case Task.yield(task, 15000) || Task.shutdown(task) do
+      case Task.yield(task, 25000) || Task.shutdown(task) do
         {:ok, result} ->
           case Jason.decode(result) do
             {:ok, d_result} ->
               possible = for t <- d_result["tests"], do: t["value"]
               earned = for t <- d_result["tests"], do: if t["passed"], do: t["value"], else: 0
-              Repo.insert!(%Grade{name: "Intro", earned: Enum.sum(earned), possible: Enum.sum(possible)},
+              Repo.insert!(%Grade{name: name, earned: Enum.sum(earned), possible: Enum.sum(possible)},
                 on_conflict: :replace_all,
                 conflict_target: :name
               )
             {:error, _} ->
-              Logger.warn "Bad Stuff"
+              result = json(conn, %{tests: [%{name: "TIMEOUT", passed: false, value: 1}]})
           end
           result
         _ ->
